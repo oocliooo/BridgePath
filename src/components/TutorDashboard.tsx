@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, GraduationCap, User, DollarSign, MessageCircle, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ChatModal from './ChatModal';
 
 interface TutorDashboardProps {
   tutorData: any;
@@ -13,6 +13,8 @@ interface TutorDashboardProps {
 
 const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
   const { toast } = useToast();
+  const [selectedStudent, setSelectedStudent] = useState<any>(null);
+  const [showChat, setShowChat] = useState(false);
 
   // Mock student requests
   const studentRequests = [
@@ -46,10 +48,9 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
   ];
 
   const handleSendProposal = (studentId: number) => {
-    toast({
-      title: "Proposal sent!",
-      description: "Your proposal has been sent to the student. They will review it and get back to you.",
-    });
+    const student = studentRequests.find(s => s.id === studentId);
+    setSelectedStudent(student);
+    setShowChat(true);
   };
 
   const getServiceLabel = (serviceId: string) => {
@@ -137,7 +138,7 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
                     {Object.entries(tutorData.pricing).map(([service, price]) => (
                       <div key={service} className="flex justify-between text-sm">
                         <span className="text-gray-600">{getServiceLabel(service)}:</span>
-                        <span className="font-medium">${price}/hr</span>
+                        <span className="font-medium">${price as number}/hr</span>
                       </div>
                     ))}
                   </div>
@@ -228,6 +229,23 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
           </div>
         </div>
       </div>
+
+      {showChat && selectedStudent && (
+        <ChatModal
+          isOpen={showChat}
+          onClose={() => setShowChat(false)}
+          targetUser={{
+            name: `Student ${selectedStudent.studentInitial}`,
+            role: 'student',
+            details: selectedStudent
+          }}
+          currentUser={{
+            name: tutorData.nickname,
+            role: 'tutor',
+            details: tutorData
+          }}
+        />
+      )}
     </div>
   );
 };

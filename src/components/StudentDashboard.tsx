@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, GraduationCap, User, Star, MessageCircle, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ChatModal from './ChatModal';
 
 interface StudentDashboardProps {
   studentData: any;
@@ -13,6 +13,8 @@ interface StudentDashboardProps {
 
 const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
   const { toast } = useToast();
+  const [selectedTutor, setSelectedTutor] = useState<any>(null);
+  const [showChat, setShowChat] = useState(false);
 
   // Mock tutor recommendations
   const recommendedTutors = [
@@ -69,10 +71,9 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
   ];
 
   const handleContact = (tutorId: number) => {
-    toast({
-      title: "Message sent!",
-      description: "Your message has been sent to the tutor. They will get back to you soon.",
-    });
+    const tutor = recommendedTutors.find(t => t.id === tutorId);
+    setSelectedTutor(tutor);
+    setShowChat(true);
   };
 
   const getPurposeLabel = (purposeId: string) => {
@@ -219,7 +220,7 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
                           {Object.entries(tutor.pricing).map(([service, price]) => (
                             <div key={service} className="flex justify-between text-sm">
                               <span className="text-gray-600">{getPurposeLabel(service)}:</span>
-                              <span className="font-medium">${price}/hr</span>
+                              <span className="font-medium">${price as number}/hr</span>
                             </div>
                           ))}
                         </div>
@@ -275,6 +276,23 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
           </div>
         </div>
       </div>
+
+      {showChat && selectedTutor && (
+        <ChatModal
+          isOpen={showChat}
+          onClose={() => setShowChat(false)}
+          targetUser={{
+            name: selectedTutor.name,
+            role: 'tutor',
+            details: selectedTutor
+          }}
+          currentUser={{
+            name: 'Student',
+            role: 'student',
+            details: studentData
+          }}
+        />
+      )}
     </div>
   );
 };

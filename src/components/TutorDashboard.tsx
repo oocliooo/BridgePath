@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, GraduationCap, User, DollarSign, MessageCircle, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useChat } from '@/contexts/ChatContext';
 import ChatModal from './ChatModal';
 
 interface TutorDashboardProps {
@@ -13,6 +14,7 @@ interface TutorDashboardProps {
 
 const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
   const { toast } = useToast();
+  const { addConversation } = useChat();
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [showChat, setShowChat] = useState(false);
 

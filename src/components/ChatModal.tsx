@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { X, Send, User, GraduationCap, DollarSign, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useChat } from '@/contexts/ChatContext';
 
 interface ChatModalProps {
   isOpen: boolean;
@@ -19,23 +20,40 @@ interface ChatModalProps {
     role: 'student' | 'tutor';
     details: any;
   };
+  conversationId?: string;
 }
 
-const ChatModal = ({ isOpen, onClose, targetUser, currentUser }: ChatModalProps) => {
+const ChatModal = ({ isOpen, onClose, targetUser, currentUser, conversationId }: ChatModalProps) => {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<Array<{
-    id: number;
-    sender: 'me' | 'them';
-    content: string;
-    timestamp: Date;
-    type?: 'text' | 'proposal' | 'contact';
-  }>>([]);
   const { toast } = useToast();
+  const { addConversation, addMessage, getConversation, markAsRead } = useChat();
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(conversationId || null);
+
+  // Get conversation from context
+  const conversation = currentConversationId ? getConversation(currentConversationId) : null;
+  const messages = conversation?.messages || [];
+
+  useEffect(() => {
+    if (isOpen && !currentConversationId) {
+      // Create new conversation if it doesn't exist
+      const newConversationId = addConversation({
+        targetUser,
+        currentUser,
+      });
+      setCurrentConversationId(newConversationId);
+    }
+  }, [isOpen, currentConversationId, addConversation, targetUser, currentUser]);
+
+  useEffect(() => {
+    if (currentConversationId && isOpen) {
+      markAsRead(currentConversationId);
+    }
+  }, [currentConversationId, isOpen, markAsRead]);
 
   if (!isOpen) return null;
 
   const handleSendMessage = () => {
-    if (!message.trim()) return;
+    if (!message.trim() || !currentConversationId) return;
 
     const newMessage = {
       id: Date.now(),
@@ -45,7 +63,7 @@ const ChatModal = ({ isOpen, onClose, targetUser, currentUser }: ChatModalProps)
       type: 'text' as const
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    addMessage(currentConversationId, newMessage);
     setMessage('');
 
     // 模拟回复
@@ -59,11 +77,13 @@ const ChatModal = ({ isOpen, onClose, targetUser, currentUser }: ChatModalProps)
         timestamp: new Date(),
         type: 'text' as const
       };
-      setMessages(prev => [...prev, reply]);
+      addMessage(currentConversationId, reply);
     }, 1000);
   };
 
   const sendBusinessCard = () => {
+    if (!currentConversationId) return;
+
     let cardContent = '';
     
     if (currentUser.role === 'tutor') {
@@ -101,7 +121,7 @@ I'd love to learn more about your tutoring services!`;
       type: 'proposal' as const
     };
 
-    setMessages(prev => [...prev, businessCard]);
+    addMessage(currentConversationId, businessCard);
     
     toast({
       title: "Business card sent!",

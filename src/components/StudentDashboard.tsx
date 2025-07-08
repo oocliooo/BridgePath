@@ -19,72 +19,84 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
   const [showChat, setShowChat] = useState(false);
 
   // Mock tutor recommendations
-  const recommendedTutors = [
+  const recommendedMentors = [
     {
       id: 1,
-      name: 'Senior L.',
-      title: 'Harvard Graduate Student',
-      major: 'Computer Science',
-      university: 'Harvard University',
+      name: 'Chloe Y.',
+      title: 'HKUST Undergraduate Student',
+      major: 'Biotechnology and Business',
+      university: 'The Hong Kong University of Science and Technology',
       rating: 4.9,
       reviews: 24,
-      specialties: ['College Applications', 'CV/PS Help', 'Interview Prep'],
+      specialties: [
+        'CV/Personal Statement/SoP Help',
+        'Interview Preparation',
+        'Major/Career Consulting',
+      ],
       pricing: {
-        'college-application': 55,
-        'cv-ps-sop': 50,
-        'interview-prep': 60
+        'cv-ps-sop': 500,
+        'interview-prep': 600,
+        'major-consulting': 400,
       },
-      description: 'Experienced in helping students get into top-tier universities. Specialized in CS applications.',
+      description: 'Experienced in helping students with all aspects of the study abroad process.',
       matchScore: 95
     },
     {
       id: 2,
-      name: 'Senior M.',
-      title: 'MIT PhD Candidate',
-      major: 'Engineering',
-      university: 'MIT',
+      name: 'Clio L.',
+      title: 'HKUST Undergraduate Student',
+      major: 'Computer Science',
+      university: 'The Hong Kong University of Science and Technology',
       rating: 4.8,
       reviews: 18,
-      specialties: ['Course Tutoring', 'Academic Consulting'],
+      specialties: [
+        'CV/Personal Statement/SoP Help',
+        'Campus Life Consulting',
+        'Cultural Adaptation & Life Advice',
+      ],
       pricing: {
-        'course-tutoring': 45,
-        'academic-consulting': 50
+        'cv-ps-sop': 550,
+        'campus-life': 300,
+        'culture-adaptation': 200,
       },
-      description: 'PhD student with 3 years of tutoring experience. Strong background in STEM subjects.',
+      description: 'PhD student with a passion for mentoring international students.',
       matchScore: 88
     },
     {
       id: 3,
-      name: 'Senior K.',
+      name: 'Sunny',
       title: 'Stanford Graduate',
       major: 'Business',
       university: 'Stanford University',
       rating: 4.7,
       reviews: 31,
-      specialties: ['College Applications', 'Interview Prep', 'Major Consulting'],
+      specialties: [
+        'Application Process Q&A',
+        'CV/Personal Statement/SoP Help',
+      ],
       pricing: {
-        'college-application': 50,
-        'interview-prep': 55,
-        'major-consulting': 45
+        'application-process': 400,
+        'cv-ps-sop': 350,
       },
-      description: 'Former admissions committee member. Expertise in business school applications.',
+      description: 'Former admissions committee member. Expertise in all-around study abroad support.',
       matchScore: 82
     }
   ];
 
   const handleContact = (tutorId: number) => {
-    const tutor = recommendedTutors.find(t => t.id === tutorId);
+    const tutor = recommendedMentors.find(t => t.id === tutorId);
     setSelectedTutor(tutor);
     setShowChat(true);
   };
 
   const getPurposeLabel = (purposeId: string) => {
     const purposeMap: Record<string, string> = {
-      'college-application': 'College Applications',
-      'cv-ps-sop': 'CV/PS/SoP Help',
+      'cv-ps-sop': 'CV/Personal Statement/SoP Help',
       'interview-prep': 'Interview Preparation',
-      'course-tutoring': 'Course Tutoring',
-      'major-consulting': 'Major/Career Consulting'
+      'major-consulting': 'Major/Career Consulting',
+      'application-process': 'Application Process Q&A',
+      'campus-life': 'Campus Life Consulting',
+      'culture-adaptation': 'Cultural Adaptation & Life Advice',
     };
     return purposeMap[purposeId] || purposeId;
   };
@@ -110,14 +122,13 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
                 <ArrowLeft className="h-4 w-4" />
                 <span>Back</span>
               </Button>
-              <div className="flex items-center space-x-2">
-                <GraduationCap className="h-8 w-8 text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">CollegeBuddy</h1>
+              <div className="flex flex-col items-start space-y-1">
+                <div className="flex items-center space-x-2">
+                  <GraduationCap className="h-8 w-8 text-blue-600" />
+                  <h1 className="text-2xl font-bold text-gray-900">BridgePath</h1>
+                </div>
+                <span className="text-sm text-gray-600">Welcome, Student</span>
               </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-600">Welcome,</span>
-              <span className="font-medium">Student</span>
             </div>
           </div>
         </div>
@@ -137,22 +148,26 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
               <div className="grid md:grid-cols-3 gap-6">
                 <div>
                   <h3 className="font-medium text-gray-900 mb-2">Basic Info</h3>
-                  <p className="text-sm text-gray-600">Age: {studentData.age}</p>
-                  {studentData.currentUniversity && (
-                    <p className="text-sm text-gray-600">Current: {studentData.currentUniversity}</p>
-                  )}
-                  {studentData.currentYear && (
-                    <p className="text-sm text-gray-600">Year: {studentData.currentYear}</p>
-                  )}
+                  <p className="text-sm text-gray-600">Location: {studentData.location}</p>
+                  <p className="text-sm text-gray-600">Current School: {studentData.currentSchool}</p>
+                  <p className="text-sm text-gray-600">Target Country/Region: {studentData.targetCountry}</p>
+                  <p className="text-sm text-gray-600">Target School: {studentData.targetSchool}</p>
+                  <p className="text-sm text-gray-600">Estimated Year for Application: {studentData.estimatedYear}</p>
+                  <p className="text-sm text-gray-600">MBTI: {studentData.mbti}</p>
+                  <p className="text-sm text-gray-600">Intended Major/Field: {studentData.intendedMajor}</p>
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900 mb-2">Needs Help With</h3>
                   <div className="space-y-1">
-                    {studentData.purposes.map((purpose: string) => (
-                      <Badge key={purpose} variant="secondary" className="text-xs mr-1">
-                        {getPurposeLabel(purpose)}
-                      </Badge>
-                    ))}
+                    {studentData.purposes && studentData.purposes.length > 0 ? (
+                      studentData.purposes.map((purpose: string) => (
+                        <Badge key={purpose} variant="secondary" className="text-xs mr-1">
+                          {purpose}
+                        </Badge>
+                      ))
+                    ) : (
+                      <span className="text-sm text-gray-500">No selection</span>
+                    )}
                   </div>
                 </div>
                 {studentData.targetUniversity && (
@@ -164,21 +179,30 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
                   </div>
                 )}
               </div>
+              <div className="flex justify-end mt-4">
+                <Button variant="outline" size="sm">Edit</Button>
+              </div>
             </CardContent>
           </Card>
 
           {/* Recommended Tutors */}
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended Tutors for You</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended Mentors for You</h2>
             <div className="grid gap-6">
-              {recommendedTutors.map((tutor) => (
+              {recommendedMentors.map((tutor) => (
                 <Card key={tutor.id} className="border-l-4 border-l-blue-500">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div>
                         <CardTitle className="flex items-center space-x-2">
                           <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <span className="text-blue-600 font-medium">{tutor.name.split(' ')[0]}</span>
+                            <span className="text-blue-600 font-medium">{
+                              (() => {
+                                const names = tutor.name.split(' ');
+                                if (names.length === 1) return names[0][0]?.toUpperCase() || '';
+                                return (names[0][0] + (names[1][0] || '')).toUpperCase();
+                              })()
+                            }</span>
                           </div>
                           <div>
                             <span>{tutor.name}</span>
@@ -222,7 +246,7 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
                           {Object.entries(tutor.pricing).map(([service, price]) => (
                             <div key={service} className="flex justify-between text-sm">
                               <span className="text-gray-600">{getPurposeLabel(service)}:</span>
-                              <span className="font-medium">${price as number}/hr</span>
+                              <span className="font-medium">¥{price as number}/hr</span>
                             </div>
                           ))}
                         </div>
@@ -234,7 +258,7 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
                         className="bg-blue-600 hover:bg-blue-700"
                       >
                         <MessageCircle className="h-4 w-4 mr-2" />
-                        Contact Tutor
+                        Contact Mentor
                       </Button>
                     </div>
                   </CardContent>
@@ -257,7 +281,7 @@ const StudentDashboard = ({ studentData, onBack }: StudentDashboardProps) => {
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Tutors Matched</CardTitle>
+                <CardTitle className="text-sm font-medium">Mentors Matched</CardTitle>
                 <User className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>

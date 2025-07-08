@@ -46,7 +46,7 @@ const ChatListModal = ({ isOpen, onClose, onSelectChat }: ChatListModalProps) =>
             <div className="flex flex-col items-center justify-center h-full text-gray-500">
               <MessageCircle className="h-12 w-12 mb-4 text-gray-400" />
               <p>No conversations yet</p>
-              <p className="text-sm">Start chatting with tutors or students!</p>
+              <p className="text-sm">Start chatting with mentors or students!</p>
             </div>
           ) : (
             <div className="space-y-1 p-2">

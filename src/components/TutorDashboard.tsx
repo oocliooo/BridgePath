@@ -27,7 +27,15 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
       request: 'Need help with college application essays for Ivy League schools',
       services: ['college-application', 'cv-ps-sop'],
       urgency: 'High',
-      budget: '$50-60/hr'
+      budget: '$50-60/hr',
+      location: 'Beijing',
+      currentSchool: 'Beijing No. 4 High School',
+      targetCountry: 'USA',
+      targetSchool: 'Harvard University',
+      estimatedYear: '2024',
+      mbti: 'ENFP',
+      intendedMajor: 'Computer Science',
+      purposes: ['cv-ps-sop']
     },
     {
       id: 2,
@@ -36,7 +44,15 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
       request: 'Looking for computer science course tutoring',
       services: ['course-tutoring'],
       urgency: 'Medium',
-      budget: '$40-50/hr'
+      budget: '$40-50/hr',
+      location: 'Shanghai',
+      currentSchool: 'Shanghai No. 5 High School',
+      targetCountry: 'Canada',
+      targetSchool: 'University of Toronto',
+      estimatedYear: '2023',
+      mbti: 'ISTJ',
+      intendedMajor: 'Computer Science',
+      purposes: ['major-consulting']
     },
     {
       id: 3,
@@ -45,7 +61,15 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
       request: 'Interview preparation for graduate school',
       services: ['interview-prep'],
       urgency: 'Low',
-      budget: '$45-55/hr'
+      budget: '$45-55/hr',
+      location: 'Guangzhou',
+      currentSchool: 'Guangzhou No. 7 High School',
+      targetCountry: 'UK',
+      targetSchool: 'University of Oxford',
+      estimatedYear: '2025',
+      mbti: 'ESFP',
+      intendedMajor: 'Economics',
+      purposes: ['interview-prep']
     }
   ];
 
@@ -57,13 +81,12 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
 
   const getServiceLabel = (serviceId: string) => {
     const serviceMap: Record<string, string> = {
-      'college-app': 'College Applications',
-      'course-tutoring': 'Course Tutoring',
-      'cv-ps': 'CV/Personal Statement',
-      'interview-prep': 'Interview Prep',
-      'academic-consulting': 'Academic Consulting',
-      'college-application': 'College Applications',
-      'cv-ps-sop': 'CV/PS/SoP'
+      'cv-ps-sop': 'CV/Personal Statement/SoP Help',
+      'interview-prep': 'Interview Preparation',
+      'major-consulting': 'Major/Career Consulting',
+      'application-process': 'Application Process Q&A',
+      'campus-life': 'Campus Life Consulting',
+      'culture-adaptation': 'Cultural Adaptation & Life Advice',
     };
     return serviceMap[serviceId] || serviceId;
   };
@@ -94,7 +117,7 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
               </Button>
               <div className="flex items-center space-x-2">
                 <GraduationCap className="h-8 w-8 text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">CollegeBuddy</h1>
+                <h1 className="text-2xl font-bold text-gray-900">BridgePath</h1>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -107,7 +130,7 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
 
       <div className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* Tutor Profile Summary */}
+          {/* Mentor Profile Summary */}
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -119,17 +142,29 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
               <div className="grid md:grid-cols-3 gap-6">
                 <div>
                   <h3 className="font-medium text-gray-900 mb-2">Personal Info</h3>
-                  <p className="text-sm text-gray-600">Nickname: {tutorData.nickname}</p>
-                  <p className="text-sm text-gray-600">Age: {tutorData.age}</p>
+                  <p className="text-sm text-gray-600">Name: {tutorData.nickname}</p>
+                  <p className="text-sm text-gray-600">Province of Gaokao: {tutorData.provinceOfGaokao}</p>
+                  <p className="text-sm text-gray-600">High School Graduated From: {tutorData.highSchoolGraduatedFrom}</p>
                   <p className="text-sm text-gray-600">University: {tutorData.university}</p>
-                  <p className="text-sm text-gray-600">Major: {tutorData.department} - {tutorData.major}</p>
+                  <p className="text-sm text-gray-600">Education Level: {tutorData.educationLevel}</p>
+                  <p className="text-sm text-gray-600">Year of Study: {tutorData.yearOfStudy}</p>
+                  <p className="text-sm text-gray-600">Department: {tutorData.department}</p>
+                  <p className="text-sm text-gray-600">Major: {tutorData.major}</p>
+                  <p className="text-sm text-gray-600">MBTI: {tutorData.mbti}</p>
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900 mb-2">Services Offered</h3>
                   <div className="space-y-1">
-                    {tutorData.services.map((service: string) => (
-                      <Badge key={service} variant="secondary" className="text-xs">
-                        {getServiceLabel(service)}
+                    {['cv-ps-sop','interview-prep','major-consulting','application-process','campus-life','culture-adaptation'].filter(serviceId => tutorData.services.includes(serviceId)).map((serviceId) => (
+                      <Badge key={serviceId} variant="secondary" className="text-xs">
+                        {({
+                          'cv-ps-sop': 'CV/Personal Statement/SoP Help',
+                          'interview-prep': 'Interview Preparation',
+                          'major-consulting': 'Major/Career Consulting',
+                          'application-process': 'Application Process Q&A',
+                          'campus-life': 'Campus Life Consulting',
+                          'culture-adaptation': 'Cultural Adaptation & Life Advice',
+                        } as Record<string, string>)[serviceId]}
                       </Badge>
                     ))}
                   </div>
@@ -137,10 +172,17 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
                 <div>
                   <h3 className="font-medium text-gray-900 mb-2">Pricing</h3>
                   <div className="space-y-1">
-                    {Object.entries(tutorData.pricing).map(([service, price]) => (
-                      <div key={service} className="flex justify-between text-sm">
-                        <span className="text-gray-600">{getServiceLabel(service)}:</span>
-                        <span className="font-medium">${price as number}/hr</span>
+                    {['cv-ps-sop','interview-prep','major-consulting','application-process','campus-life','culture-adaptation'].filter(serviceId => tutorData.services.includes(serviceId)).map((serviceId) => (
+                      <div key={serviceId} className="flex justify-between text-sm">
+                        <span className="text-gray-600">{({
+                          'cv-ps-sop': 'CV/Personal Statement/SoP Help',
+                          'interview-prep': 'Interview Preparation',
+                          'major-consulting': 'Major/Career Consulting',
+                          'application-process': 'Application Process Q&A',
+                          'campus-life': 'Campus Life Consulting',
+                          'culture-adaptation': 'Cultural Adaptation & Life Advice',
+                        } as Record<string, string>)[serviceId]}:</span>
+                        <span className="font-medium">¥{tutorData.pricing[serviceId]}/hr</span>
                       </div>
                     ))}
                   </div>
@@ -161,7 +203,7 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
                         <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                           <span className="text-blue-600 font-medium">{request.studentInitial}</span>
                         </div>
-                        <span>Student {request.studentInitial} ({request.year})</span>
+                        <span>Student {request.studentInitial}</span>
                       </CardTitle>
                       <div className="flex items-center space-x-2">
                         <Badge className={getUrgencyColor(request.urgency)}>
@@ -170,15 +212,25 @@ const TutorDashboard = ({ tutorData, onBack }: TutorDashboardProps) => {
                         <Badge variant="outline">{request.budget}</Badge>
                       </div>
                     </div>
-                    <CardDescription>{request.request}</CardDescription>
+                    <CardDescription>
+                      <div className="grid grid-cols-2 gap-2 mt-2">
+                        <p className="text-sm text-gray-600">Location: {request.location}</p>
+                        <p className="text-sm text-gray-600">Current School: {request.currentSchool}</p>
+                        <p className="text-sm text-gray-600">Target Country: {request.targetCountry}</p>
+                        <p className="text-sm text-gray-600">Target School: {request.targetSchool}</p>
+                        <p className="text-sm text-gray-600">Estimated Year: {request.estimatedYear}</p>
+                        <p className="text-sm text-gray-600">MBTI: {request.mbti}</p>
+                        <p className="text-sm text-gray-600">Intended Major: {request.intendedMajor}</p>
+                      </div>
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-600">Services needed:</span>
-                        {request.services.map((service) => (
-                          <Badge key={service} variant="outline" className="text-xs">
-                            {getServiceLabel(service)}
+                        <span className="text-sm text-gray-600">Needs Help With:</span>
+                        {(request.purposes || []).map((purpose: string) => (
+                          <Badge key={purpose} variant="outline" className="text-xs">
+                            {getServiceLabel(purpose)}
                           </Badge>
                         ))}
                       </div>

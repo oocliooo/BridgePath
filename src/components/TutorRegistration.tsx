@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,23 +17,27 @@ const TutorRegistration = ({ onBack }: TutorRegistrationProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     nickname: '',
-    age: '',
-    gender: '',
+    provinceOfGaokao: '',
+    highSchoolGraduatedFrom: '',
     university: '',
+    educationLevel: '',
+    yearOfStudy: '',
     department: '',
     major: '',
     services: [] as string[],
     pricing: {} as Record<string, string>,
-    studentId: null as File | null
+    studentId: null as File | null,
+    mbti: ''
   });
   const { toast } = useToast();
 
   const services = [
-    { id: 'college-app', label: 'College Application Guidance', defaultPrice: '50' },
-    { id: 'course-tutoring', label: 'Course Tutoring', defaultPrice: '40' },
-    { id: 'cv-ps', label: 'CV/Personal Statement Help', defaultPrice: '45' },
+    { id: 'cv-ps-sop', label: 'CV/Personal Statement/SoP Help', defaultPrice: '45' },
     { id: 'interview-prep', label: 'Interview Preparation', defaultPrice: '55' },
-    { id: 'academic-consulting', label: 'Academic Consulting', defaultPrice: '60' }
+    { id: 'major-consulting', label: 'Major/Career Consulting', defaultPrice: '50' },
+    { id: 'application-process', label: 'Application Process Q&A', defaultPrice: '40' },
+    { id: 'campus-life', label: 'Campus Life Consulting', defaultPrice: '35' },
+    { id: 'culture-adaptation', label: 'Cultural Adaptation & Life Advice', defaultPrice: '35' },
   ];
 
   const handleServiceToggle = (serviceId: string, checked: boolean) => {
@@ -77,7 +80,7 @@ const TutorRegistration = ({ onBack }: TutorRegistrationProps) => {
 
   const handleNext = () => {
     if (currentStep === 1) {
-      if (!formData.nickname || !formData.age || !formData.gender || !formData.university || !formData.department || !formData.major) {
+      if (!formData.nickname || !formData.provinceOfGaokao || !formData.highSchoolGraduatedFrom || !formData.university || !formData.educationLevel || !formData.yearOfStudy || !formData.department || !formData.major || !formData.mbti) {
         toast({
           title: "Please fill in all fields",
           description: "All personal information fields are required.",
@@ -129,7 +132,7 @@ const TutorRegistration = ({ onBack }: TutorRegistrationProps) => {
             </Button>
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">CollegeBuddy</h1>
+              <h1 className="text-2xl font-bold text-gray-900">BridgePath</h1>
             </div>
           </div>
         </div>
@@ -164,39 +167,36 @@ const TutorRegistration = ({ onBack }: TutorRegistrationProps) => {
                 <>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="nickname">Nickname</Label>
+                      <Label htmlFor="nickname">Name</Label>
                       <Input
                         id="nickname"
                         value={formData.nickname}
                         onChange={(e) => setFormData(prev => ({ ...prev, nickname: e.target.value }))}
-                        placeholder="Your display name"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="age">Age</Label>
-                      <Input
-                        id="age"
-                        type="number"
-                        value={formData.age}
-                        onChange={(e) => setFormData(prev => ({ ...prev, age: e.target.value }))}
-                        placeholder="Your age"
+                        placeholder="Your name"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <Label htmlFor="gender">Gender</Label>
-                    <Select onValueChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select gender" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="province-of-gaokao">Province of Gaokao</Label>
+                    <Input
+                      id="province-of-gaokao"
+                      type="text"
+                      placeholder="Enter the province where you took Gaokao"
+                      value={formData.provinceOfGaokao}
+                      onChange={e => setFormData(prev => ({ ...prev, provinceOfGaokao: e.target.value }))}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="high-school-graduated-from">High School Graduated From</Label>
+                    <Input
+                      id="high-school-graduated-from"
+                      type="text"
+                      placeholder="Enter your high school name"
+                      value={formData.highSchoolGraduatedFrom}
+                      onChange={e => setFormData(prev => ({ ...prev, highSchoolGraduatedFrom: e.target.value }))}
+                    />
                   </div>
 
                   <div>
@@ -207,6 +207,37 @@ const TutorRegistration = ({ onBack }: TutorRegistrationProps) => {
                       onChange={(e) => setFormData(prev => ({ ...prev, university: e.target.value }))}
                       placeholder="Your university name"
                     />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="education-level">Education Level</Label>
+                      <Select onValueChange={(value) => setFormData(prev => ({ ...prev, educationLevel: value }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select level" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="UG">Undergraduate (UG)</SelectItem>
+                          <SelectItem value="PG">Postgraduate (PG)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="year-of-study">Year of Study</Label>
+                      <Select onValueChange={(value) => setFormData(prev => ({ ...prev, yearOfStudy: value }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select year" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1">1st year</SelectItem>
+                          <SelectItem value="2">2nd year</SelectItem>
+                          <SelectItem value="3">3rd year</SelectItem>
+                          <SelectItem value="4">4th year</SelectItem>
+                          <SelectItem value="5">5th year</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -228,6 +259,17 @@ const TutorRegistration = ({ onBack }: TutorRegistrationProps) => {
                         placeholder="e.g., Computer Science"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="mbti">MBTI</Label>
+                    <Input
+                      id="mbti"
+                      type="text"
+                      placeholder="Enter your MBTI type (e.g. INFP)"
+                      value={formData.mbti}
+                      onChange={e => setFormData(prev => ({ ...prev, mbti: e.target.value }))}
+                    />
                   </div>
                 </>
               )}
@@ -253,13 +295,13 @@ const TutorRegistration = ({ onBack }: TutorRegistrationProps) => {
                           </div>
                           {formData.services.includes(service.id) && (
                             <div className="flex items-center space-x-2">
-                              <span className="text-sm text-gray-600">$</span>
+                              <span className="text-sm text-gray-600">¥</span>
                               <Input
                                 type="number"
                                 value={formData.pricing[service.id] || ''}
                                 onChange={(e) => handlePricingChange(service.id, e.target.value)}
                                 className="w-20"
-                                placeholder="50"
+                                placeholder="500"
                               />
                               <span className="text-sm text-gray-600">/hour</span>
                             </div>

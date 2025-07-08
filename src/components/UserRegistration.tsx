@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,7 +36,7 @@ const UserRegistration = ({ onBack }: UserRegistrationProps) => {
             </Button>
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">CollegeBuddy</h1>
+              <h1 className="text-2xl font-bold text-gray-900">BridgePath</h1>
             </div>
           </div>
         </div>
@@ -48,7 +47,7 @@ const UserRegistration = ({ onBack }: UserRegistrationProps) => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              How would you like to use CollegeBuddy?
+              How would you like to use BridgePath?
             </h2>
             <p className="text-lg text-gray-600">
               Choose your role to get started with the right experience
@@ -71,7 +70,7 @@ const UserRegistration = ({ onBack }: UserRegistrationProps) => {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm text-gray-600 mb-6">
-                  <li>• Find expert tutors</li>
+                  <li>• Find expert mentors</li>
                   <li>• Get application guidance</li>
                   <li>• Improve your grades</li>
                   <li>• Practice interviews</li>
@@ -90,7 +89,7 @@ const UserRegistration = ({ onBack }: UserRegistrationProps) => {
                 <div className="mx-auto mb-4 p-3 bg-green-100 rounded-full w-fit">
                   <GraduationCap className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle className="text-xl">I'm a Tutor</CardTitle>
+                <CardTitle className="text-xl">I'm a Mentor</CardTitle>
                 <CardDescription className="text-base">
                   I want to help students and earn money
                 </CardDescription>
@@ -103,7 +102,7 @@ const UserRegistration = ({ onBack }: UserRegistrationProps) => {
                   <li>• Help students succeed</li>
                 </ul>
                 <Button className="w-full bg-green-600 hover:bg-green-700">
-                  Join as Tutor
+                  Join as Mentor
                 </Button>
               </CardContent>
             </Card>

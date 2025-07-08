@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,7 +25,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">CollegeBuddy</h1>
+              <h1 className="text-2xl font-bold text-gray-900">BridgePath</h1>
             </div>
             <Button onClick={handleGetStarted} className="bg-blue-600 hover:bg-blue-700">
               Get Started
@@ -43,14 +42,14 @@ const Index = () => {
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Whether you're a student seeking guidance or an experienced tutor ready to help, 
-            CollegeBuddy connects you with the perfect academic match.
+            BridgePath connects you with the perfect academic match.
           </p>
           <Button 
             onClick={handleGetStarted}
             size="lg" 
             className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3"
           >
-            Join CollegeBuddy Today
+            Join BridgePath Today
           </Button>
         </div>
       </section>
@@ -59,7 +58,7 @@ const Index = () => {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
           <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            How CollegeBuddy Works
+            How BridgePath Works
           </h3>
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="border-2 border-blue-100 hover:border-blue-300 transition-colors">
@@ -85,7 +84,7 @@ const Index = () => {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <BookOpen className="h-6 w-6 text-green-600" />
-                  <span>For Tutors</span>
+                  <span>For Mentors</span>
                 </CardTitle>
                 <CardDescription>Share your knowledge and earn money</CardDescription>
               </CardHeader>
@@ -154,10 +153,10 @@ const Index = () => {
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <GraduationCap className="h-6 w-6" />
-            <span className="text-xl font-bold">CollegeBuddy</span>
+            <span className="text-xl font-bold">BridgePath</span>
           </div>
           <p className="text-gray-400">
-            Connecting students and tutors for academic success
+            Connecting students and mentors for academic success
           </p>
         </div>
       </footer>
